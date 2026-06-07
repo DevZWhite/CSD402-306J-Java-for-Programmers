@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<!--
+    File:    water_heat_calculator.fxml
+    Author:  Zachary White
+    Date:    June 7, 2026
+    Course:  CSD402 - Module 1
+
+    Description:
+    FXML layout for the Water Heat Energy Calculator.
+    All event handling is delegated to WaterHeatCalculatorController.java
+    via the fx:controller attribute below.
+-->
+
+<VBox alignment="CENTER"
+      spacing="14"
+      style="-fx-background-color: #ffffff;"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="White_mod1_csd402.WaterHeatCalculatorController">
+
+    <padding>
+        <Insets top="24" right="24" bottom="24" left="24"/>
+    </padding>
+
+    <!-- Title -->
+    <Text text="Water Heat Energy Calculator"
+          fill="#aca10f"
+          style="-fx-font-family: Verdana; -fx-font-size: 20; -fx-font-weight: bold;"/>
+
+    <!-- Subtitle / formula -->
+    <Text text="Q = mass × (T₂ − T₁) × 4184"
+          fill="DARKSLATEGRAY"
+          style="-fx-font-family: Verdana; -fx-font-size: 13; -fx-font-style: italic;"/>
+
+    <Separator/>
+
+    <!-- Input grid -->
+    <GridPane alignment="CENTER" hgap="12" vgap="10">
+
+        <Label text="Water Mass (kg):"
+               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="tfMass"
+                   promptText="e.g. 2.5"
+                   GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Initial Temperature (°C):"
+               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="tfInitialTemp"
+                   promptText="e.g. 20"
+                   GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Final Temperature (°C):"
+               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="tfFinalTemp"
+                   promptText="e.g. 100"
+                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+    </GridPane>
+
+    <!-- Button row — centered -->
+    <HBox alignment="CENTER" spacing="10">
+        <Button text="Calculate Energy"
+                defaultButton="true"
+                onAction="#calculate"
+                style="-fx-background-color: #1ab52f; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12 16 12 16;"/>
+        <Button text="Clear"
+                onAction="#clearFields"
+                style="-fx-background-color: #888; -fx-text-fill: white; -fx-padding: 6 16 6 16;"/>
+    </HBox>
+
+    <Separator/>
+
+    <!-- Result label — fx:id lets the controller update it -->
+    <Label fx:id="lblResult"
+           text="Enter values above and click Calculate."
+           wrapText="true"
+           maxWidth="520"
+           alignment="CENTER"
+           style="-fx-font-family: Verdana; -fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #1a8a1a;"/>
+
+</VBox>
