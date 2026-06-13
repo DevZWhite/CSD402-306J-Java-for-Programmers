@@ -100,10 +100,10 @@ Successfully completing this course, students will be able to:
 
 ## 🛠️ Technologies Used
 
-- **Java 10** — Primary programming language
-- **VS Code / IntelliJ IDEA** — Code editor and IDE
-- **JDK (Java Development Kit)** — Compiler and runtime environment
-- **Git / GitHub** — Version control
+- **Java 26** Primary programming language
+- **VS Code / IntelliJ IDEA** Code editor and IDE
+- **JDK (Java Development Kit)** Compiler and runtime environment
+- **Git / GitHub** Version control
 
 ---
 
