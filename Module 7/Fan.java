@@ -2,24 +2,32 @@
  * Name:       Zachary D. White
  * Instructor: Darrell Payne
  * Class:      CSD-402
- * Date:       06/26/2026
+ * Date:       07/04/2026
  *
  * Program Description:
  *   This program defines a Fan class that models an electric fan.
  *   The Fan class stores the fan's speed, on/off state, blade radius,
  *   and color. It includes constants, private fields, getters, setters,
- *   two constructors, and a toString() method.
+ *   and two constructors.
  *
- *   A separate test section at the bottom (main method) creates two Fan
- *   objects one with default values, one with custom values — and
- *   demonstrates all the class methods.
+ *   Updated for the UseFans assignment. Additions in this version:
+ *     - A displayFan(Fan) method that prints a single Fan's info using
+ *       the getters directly.
+ *     - A displayFans(List<Fan>) method that takes a whole collection
+ *       of Fan objects and displays each one by calling displayFan().
+ *     - Test code in main() that builds a collection (ArrayList<Fan>)
+ *       of several Fan objects, exercises setters/getters on them,
+ *       and then displays the whole collection using displayFans().
  *
- *   Updated for the UseFans assignment: the 'this' reference is now
- *   used consistently throughout the class wherever it is allowed,
- *   including in the getters and inside setSpeed()'s validation, not
- *   just in places where it is strictly required to resolve a naming
- *   conflict (like the argument constructor and the other setters).
+ *   The 'this' reference is used consistently throughout the class
+ *   wherever it is allowed, including in the getters and inside
+ *   setSpeed()'s validation, not just in places where it is strictly
+ *   required to resolve a naming conflict (like the argument
+ *   constructor and the other setters).
  */
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Fan {
 
@@ -144,19 +152,20 @@ public class Fan {
     }
 
     // ----------------------------------------------------------------
-    // toString()
+    // displayFan(Fan)
     //
-    // Information on toSting invocation. https://www.geeksforgeeks.org/java/object-tostring-method-in-java/
-    // Returns a readable description of the fan's current state.
-    // Java calls this method automatically when we print a Fan object.
-    // We use a helper to convert the speed number into a word label.
+    // Displays a SINGLE Fan's information WITHOUT calling toString().
+    // Instead, this method calls the getter methods directly and
+    // prints each piece of information itself. This is intentionally
+    // separate from toString() so the two display paths never overlap.
     // ----------------------------------------------------------------
-    @Override
-    public String toString() {
+    public static void displayFan(Fan fan) {
 
-        // Convert the speed constant to a readable label
+        // Convert the speed number into a readable label, the same
+        // way toString() does, but done independently here so this
+        // method never has to call toString() to get its output.
         String speedLabel;
-        switch (this.speed) {
+        switch (fan.getSpeed()) {
             case STOPPED: speedLabel = "Stopped"; break;
             case SLOW:    speedLabel = "Slow";    break;
             case MEDIUM:  speedLabel = "Medium";  break;
@@ -164,20 +173,34 @@ public class Fan {
             default:      speedLabel = "Unknown"; break;
         }
 
-        // Build the full description string and return it
-        return "Fan State:"
-             + "\n  Power  : " + (this.on ? "On" : "Off")
-             + "\n  Speed  : " + speedLabel + " (" + this.speed + ")"
-             + "\n  Radius : " + this.radius + " inches"
-             + "\n  Color  : " + this.color;
+        System.out.println("  Power  : " + (fan.isOn() ? "On" : "Off"));
+        System.out.println("  Speed  : " + speedLabel + " (" + fan.getSpeed() + ")");
+        System.out.println("  Radius : " + fan.getRadius() + " inches");
+        System.out.println("  Color  : " + fan.getColor());
+    }
+
+    // ----------------------------------------------------------------
+    // displayFans(List<Fan>)
+    //
+    // Takes a COLLECTION of Fan instances and displays every Fan in
+    // it. This method also avoids toString() — it simply loops over
+    // the collection and hands each Fan off to displayFan() above.
+    // ----------------------------------------------------------------
+    public static void displayFans(List<Fan> fans) {
+        int index = 1;
+        for (Fan fan : fans) {
+            System.out.println("\n--- Fan #" + index + " ---");
+            displayFan(fan);
+            index++;
+        }
     }
 
     // ----------------------------------------------------------------
     // main — Test Application
     //
-    // Creates two Fan objects and demonstrates the class features:
-    //   fan1 — built with the no-argument constructor (all defaults)
-    //   fan2 — built with the argument constructor (custom values)
+    // Builds a collection (ArrayList<Fan>) of several Fan objects,
+    // exercises constructors/setters/getters on them, and then
+    // displays the whole collection using displayFans().
     // ----------------------------------------------------------------
     public static void main(String[] args) {
 
@@ -186,25 +209,45 @@ public class Fan {
         System.out.println("=================================================");
 
         // --------------------------------------------------
-        // Fan 1: Default Constructor
-        // No arguments — all fields start at default values
+        // Create a collection of Fan instances.
         // --------------------------------------------------
+        List<Fan> fans = new ArrayList<Fan>();
+
+        // Fan 1: built with the no-argument constructor (all defaults)
         Fan fan1 = new Fan();
+        fans.add(fan1);
 
-        System.out.println("\n--- Fan 1: Created with default constructor ---");
-        System.out.println(fan1);   // calls toString() automatically
+        // Fan 2: built with the argument constructor (custom values)
+        Fan fan2 = new Fan(Fan.FAST, true, 12, "black");
+        fans.add(fan2);
 
-        // Now use setters to change fan1's state
+        // Fan 3: another no-argument fan we will customize with setters
+        Fan fan3 = new Fan();
+        fans.add(fan3);
+
+        // Fan 4: another argument-constructor fan
+        Fan fan4 = new Fan(Fan.SLOW, false, 8, "red");
+        fans.add(fan4);
+
+        // fan5: another argument-constructor fan
+        Fan fan5 = new Fan(Fan.MEDIUM, true, 10, "white");
+        fans.add(fan5);
+
+        // Display the collection right after creation, before any updates
+
+        System.out.println("\n--- Collection right after creation ---");
+        displayFans(fans);
+
+        // --------------------------------------------------
+        // Update fan1 with setters
+        // --------------------------------------------------
         System.out.println("\n  Updating fan1 with setters...");
         fan1.setOn(true);           // turn the fan on
         fan1.setSpeed(Fan.MEDIUM);  // set speed to MEDIUM (2)
         fan1.setRadius(10);         // change blade radius to 10 inches
         fan1.setColor("blue");      // change color to blue
 
-        System.out.println("\n--- Fan 1: After setter updates ---");
-        System.out.println(fan1);
-
-        // Demonstrate the individual getter methods
+        // Demonstrate the individual getter methods on fan1
         System.out.println("\n  Demonstrating getters on fan1:");
         System.out.println("  getSpeed()  --> " + fan1.getSpeed());
         System.out.println("  isOn()      --> " + fan1.isOn());
@@ -217,24 +260,47 @@ public class Fan {
         System.out.println("  Speed after bad input: " + fan1.getSpeed()
                          + " (should be 0 / STOPPED)");
 
-        System.out.println("\n-------------------------------------------------");
-
         // --------------------------------------------------
-        // Fan 2: Argument Constructor
-        // Pass in all four values directly at creation time
+        // Turn fan2 off and slow it down
         // --------------------------------------------------
-        Fan fan2 = new Fan(Fan.FAST, true, 12, "black");
-
-        System.out.println("\n--- Fan 2: Created with argument constructor ---");
-        System.out.println(fan2);
-
-        // Turn fan2 off and slow it down to show setters still work
         System.out.println("\n  Turning fan2 off and reducing speed...");
         fan2.setOn(false);
         fan2.setSpeed(Fan.SLOW);
 
-        System.out.println("\n--- Fan 2: After updates ---");
-        System.out.println(fan2);
+        // --------------------------------------------------
+        // Customize fan3 with setters
+        // --------------------------------------------------
+        System.out.println("\n  Updating fan3 with setters...");
+        fan3.setOn(true);
+        fan3.setSpeed(Fan.FAST);
+        fan3.setRadius(14);
+        fan3.setColor("green");
+
+        // --------------------------------------------------
+        // Customize fan4 with setters
+        // --------------------------------------------------
+        System.out.println("\n  Turning fan4 on...");
+        fan4.setOn(true);
+
+        // --------------------------------------------------
+        // Customize fan5 with setters
+        // --------------------------------------------------
+        System.out.println("\n  Changing fan5 color to yellow..."); 
+        fan5.setColor("yellow");
+
+        // --------------------------------------------------
+        // Display the single-Fan method on just fan2, to show
+        // displayFan() working independently of the collection.
+        // --------------------------------------------------
+        System.out.println("\n--- Displaying a single Fan (fan2) with displayFan() ---");
+        displayFan(fan2);
+
+        // --------------------------------------------------
+        // Display the whole collection after all updates,
+        // showing displayFans() working across every Fan.
+        // --------------------------------------------------
+        System.out.println("\n--- Collection after all updates ---");
+        displayFans(fans);
 
         System.out.println("\n=================================================");
         System.out.println("               END OF TEST PROGRAM               ");
