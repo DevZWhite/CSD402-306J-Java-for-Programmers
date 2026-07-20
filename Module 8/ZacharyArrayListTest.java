@@ -1,5 +1,6 @@
 /**
- * Zachary White
+ * Name: Zachary White
+ * instructor: Darrell Payne
  * Assignment 8.2: ArrayList Max Value 
  * July 09, 2026
  * CSD-402: Java for Programmers
