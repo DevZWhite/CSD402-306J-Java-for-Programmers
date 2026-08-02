@@ -1,7 +1,7 @@
 /*
    Program Name: Energy.java
    Author: Zachary White
-   Date: June 4, 2026
+   Date: Aug 1, 2026
    Course: CSD402 - Module 1 Darrell Payne
 
    Requirements:
